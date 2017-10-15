@@ -1,0 +1,117 @@
+\documentclass[11pt, a4paper]{book}
+%\usepackage[applemac]{inputenc} %permet d'utiliser les  
+\usepackage[utf8]{inputenc}                               %caractères accentués, etc.
+\usepackage[T1]{fontenc}
+%\usepackage[frenchb]{babel}
+%\usepackage{kpfonts}
+%\usepackage{fourier}
+%\usepackage[charter]{mathdesign}
+%\usepackage{times}
+%\usepackage{charter}
+\usepackage{mathpazo}
+%\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+%\usepackage{fancyhdr}
+%\fancyhf{}
+%\fancyhead[C]{\thepage}
+%\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage[T1]{fontenc}%afficher les accents
+\usepackage{amsmath, amssymb}
+\usepackage{theorem,amsfonts}
+%\theoremstyle{break}
+\usepackage{graphicx }
+\usepackage{fancyhdr}
+\usepackage[a4paper,tmargin=2cm,bmargin=3.5cm,rmargin=2cm,lmargin=2cm]{geometry}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+     backref=true,    %permet d'ajouter des liens dans...
+     pagebackref=true,%...les bibliographies
+     hyperindex=true, %ajoute des liens dans les index.
+     colorlinks=true, %colorise les liens
+     breaklinks=true, %permet le retour à la ligne dans les liens trop longs
+     urlcolor= blue,  %couleur des hyperliens
+     linkcolor= blue, %couleur des liens internes
+     bookmarks=true,  %créé des signets pour Acrobat
+     bookmarksopen=true,            %si les signets Acrobat sont créés,
+                                    %les afficher complètement.
+     pdftitle={Suites et S\'eries de fonctions et int\'egrales d\'ependant d'un param\`etre}, %informations apparaissant dans
+     pdfauthor={Koffi Sani},     %dans les informations du document
+     pdfsubject={Cours de Git}          %sous Acrobat.
+}
+\newtheorem{teo}{Th\'eor\`eme}[section]
+\newtheorem{defi}{D\'efinition}[section]
+\newtheorem{pro}{Proposition}[section]
+\newtheorem{rem}{Remarque}[section]
+\newtheorem{cor}{Corollaire}[section]
+\newtheorem{lem}{Lemme}[section]
+\author{\textbf{Koff SANI} \\ Ing\'enieur IT \\ Directeur Technique de ISPACE Corporation \\ Lomé - TOGO}
+\newenvironment{pr}{\noindent {\bf Preuve} \noindent} {\hfill $\Box$\vskip 5mm}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\fancyhf{}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\fancyhead[C]{\it <<Bien ma\^itriser Git>>\\ }
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\addtolength{\headheight}{0.5pt}
+\fancypagestyle{plain}{
+	\fancyhead{}
+	\renewcommand{\headrulewidth}{0pt}	
+	}
+\fancyfoot[L]{\begin{footnotesize}
+ Koff SANI\\ Ig\'enieur IT\end{footnotesize}}
+\fancyfoot[R]{\begin{footnotesize} \textit{
+Directeur Technique\\ISPACE Corporation - Lomé, TOGO}
+\end{footnotesize}}
+
+\begin{document}
+
+\title{ \begin{figure} \begin{center}
+ %\includegraphics[height=6cm,width=6cm]{logoul.png} 
+ \end{center} \end{figure}
+ \rule{13cm}{0.15cm}\\
+  \textbf{\textbf{ Bien ma\^itriser Git et Gitlab -- outils du développeur moderne }}\\ 
+ \rule{13cm
+}{0.15cm}
+}
+ 
+\date{}
+
+\maketitle
+%\newpage
+\chapter*{Epigraphe}
+\begin{flushright}
+\emph{ Vous voulez bien coder demain ? Apprenez à bien utiliser Git aujourd'hui.}\\ Koffi SANI
+\end{flushright}
+%\newpage
+\chapter*{Préface}
+Ce cours de Math\'ematiques, dispens\'e par M. SIGGINI --paix à son âme -- \`a l'Universit\'e de Lom\'e, a toujours \'et\'e sous forme d'un document manuscrit, beau \`a lire et bien r\'edig\'e pour faciliter la compr\'ehension aux lecteurs. Mais dans notre monde actuel o\`u la technologie d\'efie toute l'existence, il y a lieu de chercher \`a am\'eliorer ce qui existait d\'ej\`a, \`a d\'efaut de cr\'eer du nouveau. Par ailleurs ce cours est tr\`es important dans le Parcours de Licence de Math\'ematiques, tant pour la pr\'eparation des concours d'entr\'ee dans les \'ecoles d'ing\'enieur que pour la poursuite des \'etudes en Math\'ematiques et ses applications. C'est de l\`a que m'est venue l'id\'ee de le num\'eriser, de le transformer en format PDF (Portable Document Format), lors de mon exercice dans l'apprentissage de \LaTeX.\\
+
+ Ce travail dont voici le r\'esultat est le fruit de mes premiers pas avec \LaTeX\ . Une manière de péréniser et diffuser l'\oe uvre d'un enseignant que j'ai beaucoup adoré.\\
+ 
+ Comme tout d\'ebutant, des erreurs typographiques et de mauvaise ma\^itrise des syntaxes pourront figurer dans ce document. Je serai heureux de recevoir vos suggestions de tout genre, vos commentaires pouvant aider \`a am\'eliorer ce manuel. N\'eanmoins j'esp\`ere que ceci pourra non seulement aider les camarades qui s'en serviront, mais aussi inspirer d'autres \`a m'emboiter le pas en essayant de faire de m\^eme pour les cours manuscrits qui restent encore. \\
+\begin{flushright}
+Votre camarade,\\
+\vspace{1cm}
+\emph{Koffi SANI } \\ %\includegraphics[width=0.4cm]{mail}\ koffisani@gmail.com |  \includegraphics[width=0.3cm]{twitter}\ koffisani | \includegraphics[width=0.3cm]{in}\ koffisani
+\end{flushright}
+\tableofcontents
+\setcounter{tocdepth}{3}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\lo}{\mathrm{Log}}
+\newcommand{\arct}{\mathrm{Arctan}}
+
+
+\begin{thebibliography}{99} 
+\bibitem{kre} P.~Kr\'ee,~J.Vauthier: \emph{Cours deuxi\`eme ann\'ee du DEUG. Analyse-Alg\`ebre-G\'eom\'etrie,}  
+\'Editions ESKA 
+\bibitem{lelong} J.~Lelong-Ferrand,~J.M. ~Arnaudies: \emph{Cours de Math\'ematiques Tome 2 Analyse},  
+\'Editions Dunod Universit\'e.
+\end{thebibliography}
+\end{document}
