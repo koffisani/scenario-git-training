@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cours pratique d'initiation à Git
+% @author Koffi SANI <me@koffisani.ga>
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt, a4paper]{book}
 %\usepackage[applemac]{inputenc} %permet d'utiliser les  
 \usepackage[utf8]{inputenc}                               %caractères accentués, etc.
@@ -22,6 +28,8 @@
 \usepackage{theorem,amsfonts}
 %\theoremstyle{break}
 \usepackage{graphicx }
+\usepackage{listings}
+\usepackage{color}
 \usepackage{fancyhdr}
 \usepackage[a4paper,tmargin=2cm,bmargin=3.5cm,rmargin=2cm,lmargin=2cm]{geometry}
 \usepackage[pdftex]{hyperref}
@@ -70,6 +78,37 @@
 Directeur Technique\\ISPACE Corporation - Lomé, TOGO}
 \end{footnotesize}}
 
+\definecolor{blueclair}{rgb}{0.9, 0.992, 0.252}
+\definecolor{bluefonce}{rgb}{0, 0.2, 0.4}
+
+\definecolor{colKeys}{rgb}{0, 0, 1}
+\definecolor{colIdentifier}{rgb}{0, 0, 0}
+\definecolor{colString}{rgb}{0.6, 0.1, 0.1}
+
+%Permet d'utiliser les code dans les diapositives : Ne peinez pas à demander google.
+\lstnewenvironment{bash}
+	{%\inputencoding{}
+	\lstset{		
+		language=bash,
+		basicstyle=\footnotesize\ttfamily,
+		%numbers=left,
+		keywordstyle=\color{colKeys},
+		commentstyle=\color{gray}\it ,
+		identifierstyle=\color{bluefonce},
+		stringstyle=\color{colString},
+		%numberstyle=\scriptsize,
+		%stepnumber=1,
+		numbersep=5pt,
+		showstringspaces=false,
+		xrightmargin=1cm,
+		frameround=tttt,
+		extendedchars=true,%accents dans le code
+		%backgroundcolor=\color{bluefonce},
+		breaklines=true,
+		frame=l
+	}
+}{}
+
 \begin{document}
 
 \title{ \begin{figure} \begin{center}
@@ -90,23 +129,89 @@ Directeur Technique\\ISPACE Corporation - Lomé, TOGO}
 \emph{ Vous voulez bien coder demain ? Apprenez à bien utiliser Git aujourd'hui.}\\ Koffi SANI
 \end{flushright}
 %\newpage
-\chapter*{Préface}
-Ce cours de Math\'ematiques, dispens\'e par M. SIGGINI --paix à son âme -- \`a l'Universit\'e de Lom\'e, a toujours \'et\'e sous forme d'un document manuscrit, beau \`a lire et bien r\'edig\'e pour faciliter la compr\'ehension aux lecteurs. Mais dans notre monde actuel o\`u la technologie d\'efie toute l'existence, il y a lieu de chercher \`a am\'eliorer ce qui existait d\'ej\`a, \`a d\'efaut de cr\'eer du nouveau. Par ailleurs ce cours est tr\`es important dans le Parcours de Licence de Math\'ematiques, tant pour la pr\'eparation des concours d'entr\'ee dans les \'ecoles d'ing\'enieur que pour la poursuite des \'etudes en Math\'ematiques et ses applications. C'est de l\`a que m'est venue l'id\'ee de le num\'eriser, de le transformer en format PDF (Portable Document Format), lors de mon exercice dans l'apprentissage de \LaTeX.\\
 
- Ce travail dont voici le r\'esultat est le fruit de mes premiers pas avec \LaTeX\ . Une manière de péréniser et diffuser l'\oe uvre d'un enseignant que j'ai beaucoup adoré.\\
- 
- Comme tout d\'ebutant, des erreurs typographiques et de mauvaise ma\^itrise des syntaxes pourront figurer dans ce document. Je serai heureux de recevoir vos suggestions de tout genre, vos commentaires pouvant aider \`a am\'eliorer ce manuel. N\'eanmoins j'esp\`ere que ceci pourra non seulement aider les camarades qui s'en serviront, mais aussi inspirer d'autres \`a m'emboiter le pas en essayant de faire de m\^eme pour les cours manuscrits qui restent encore. \\
-\begin{flushright}
-Votre camarade,\\
-\vspace{1cm}
-\emph{Koffi SANI } \\ %\includegraphics[width=0.4cm]{mail}\ koffisani@gmail.com |  \includegraphics[width=0.3cm]{twitter}\ koffisani | \includegraphics[width=0.3cm]{in}\ koffisani
-\end{flushright}
 \tableofcontents
 \setcounter{tocdepth}{3}
 \newcommand{\ud}{\mathrm{d}}
 \newcommand{\lo}{\mathrm{Log}}
 \newcommand{\arct}{\mathrm{Arctan}}
 
+\chapter{Introduction}
+
+Quand on entend parler d’un outil, on se demande à priori beaucoup de choses. Et quand je publie sur les réseaux sociaux à propos de Git, des questions surgissent : Qu’est-ce que c’est que Git ? A quoi ça sert ? Pourquoi l’utiliser ?
+
+Voici quelques réponses à ces interrogations.
+% Git : qu’est-ce que c’est ?
+\section{Git, qu'est-ce que c'est et à quoi il sert ? }
+
+Il y a de cela quelques années, alors que la collaboration prenait un élan considérable entre les développeurs de grands projets open source qui font la technologie, certains ont buté sur la nécessité de travailler aisément avec les autres. Il devint nécessaire de savoir qui a modifié le fichier X, ce qu’il a ajouté ou retranché, pourquoi il l’a fait, … Ces questions ne peuvent être toutes répondues avec les outils disponibles (email, IRC, …). Et Linus Torvalds, le créateur du noyau Linux, eut l’idée d’initier ce qui est devenu l’outil le plus populaire de gestion de version de code.
+
+Git est un gestionnaire décentralisé de version de code. Décentralisé parce que c’est ce qui le différencie des autres gestionnaires de gestion de version comme SVN. Décentralisé ici signifie que chaque développeur a tout le code du projet en local sur son poste de travail.
+A quoi sert Git ?
+
+Même si vous n’écrivez pas du code, il vous est déjà arrivé d’enregistrer un même fichier sous diverses versions (donc divers noms) avec l’idée de garder toutes ces versions pour une utilisation future. Il nous arrive donc d’avoir mon\_fichier\_v1.docx, mon\_fichier\_v2.docx, mon\_fichier\_v3.docx, mon\_fichier\_v3\_final.docx, mon\_fichier\_v3\_bon.docx, ainsi de suite. On se retrouve avec un dossier rempli avec plusieurs fichiers prêtant à confusion.
+
+Non, avant il y avait le chaos. Mais maintenant, il y a Git.
+
+\section{Pourquoi l’utiliser ?}
+
+Maintenant que nous avons fait la lumière sur ce que c’est que Git et ce à quoi il sert, pourquoi devons-nous l’utiliser ?
+
+    Permet la modularisation : Git permet une modularisation aisée de son projet. Que vous soyez sur un projet de petite, moyenne ou grande taille, le besoin est sans cesse présent de développer des fonctionnalités en parallèle. Git permet à l’aide des branches de facilement atteindre vos fins.
+    Permet d’annuler vos erreurs : dans votre éditeur de code, vous avez l’habitude d’annuler vos modifications (CTRL+Z, CTRL+Y, …). Mais dès que vous fermez l’éditeur, impossible d’annuler ce que vous venez à peine de modifier. Git apporte une solution avec les commits avec la possibilité de passer d’un commit à un autre.
+    Permet de travailler en mode déconnecté : nous n’avons pas internet à tout moment. Nous ne sommes pas au boulot tout le temps. Mais quand on utilise Git, puisqu’on a tout le code sur notre poste de travail, on peut continuer le développement partout où on sera.
+    Permet d’éviter des pertes de données : si vous travaillez à plusieurs sur un projet, concilier vos modifications –- quand on n’utilise pas un outil moderne –- est très critique. Il est difficile à vue d’œil d’identifier les modifications apportées par un collaborateur, de comparer deux fichiers, ou de faire l’intégration de ces modifications. Avec Git, vous identifiez clairement les modifications des autres collaborateurs, ce qu’ils ont ajouté ou retranché, et pourquoi ils l’ont fait. Et lorsque ultérieurement une modification devient critique, vous pouvez repartir en arrière sur une version préalable du fichier grâce à l’historique des modifications.
+
+Voilà quelques raisons d’utiliser Git, et donc de l’apprendre. Le présent document a pour devoir de répondre à la question : \textbf{Comment utiliser Git ?}
+
+\chapter{Installation et configuration}
+\section{Installation}
+Git est un logiciel qui est disponible pour toutes les plateformes de systèmes d'exploitation pour oridinateurs : Linux, Mac et Windows. Pour l'installer, beaucoup de ressources sur le web décrivent la procédure. Sur windows, l'exécutable est disponible sur \url{https://git-scm.com}.
+\section{Configuration}
+Avant de pouvoir utiliser Git, il faut le configurer. Sa configuration consiste à le préparer à bien gérer votre code. Git distingue trois types de configurations :
+\begin{itemize}
+\item Les configurations locales : elles ne concernent que le dossier Git dans lequel l'utilisateur les fait.
+\item Les configurations globales : elles sont valables pour la session de l'utilisateur, c'est-à-dire tous les dossiers que créera l'utilisateur.
+\item Les configurations système : elles s'appliquent à toutes sessions de la machine, tous les utilisateurs de la machine.
+\end{itemize}
+\begin{bash}
+git config --global user.name "<votre nom et prenom>"
+\end{bash}
+\begin{bash}
+git config --global user.email "<votre email>"
+\end{bash}
+
+Pour recceuillir certaines informations des utilisateurs, Git a besoin d'un éditeur de texte. Il est donc nécessaire d'en configurer afin que Git choisisse l'éditeur de votre choix.
+\begin{bash}
+git config --global core.editor "<nom de l'application> --wait"
+\end{bash}
+Le paramètre --wait permet d'exiger de Git d'attendre la fermeture de l'éditeur avant de continuer d'autres opérations.
+
+La gestion des caractères de fin de ligne sur Windows
+\begin{bash}
+git config --global core.autocrlf true
+\end{bash}
+sur Linux et Mac OS
+\begin{bash}
+git config --global core.autocrlf input
+\end{bash}
+On peut aussi indiquer à Git comment envoyer le code sur un ordinateur distant. La commande suivante dit à Git qu'il faut envoyer les informations de la branche courante sur la branche de même nom sur la machine distante.
+\begin{bash}
+git config --global push.default simple
+\end{bash}
+
+On peut afficher toutes les configurations avec la commande suivante :
+\begin{bash}
+git config --list
+\end{bash}
+On peut aussi lister seulement les configurations globales ou locales ou système en ajoutant l'option --global, --local ou --system respectivement.
+\begin{bash}
+git config --list --global 
+\end{bash}
+\chapter{Création d'un dossier Git}
+\begin{bash}
+git init
+\end{bash}
 
 \begin{thebibliography}{99} 
 \bibitem{kre} P.~Kr\'ee,~J.Vauthier: \emph{Cours deuxi\`eme ann\'ee du DEUG. Analyse-Alg\`ebre-G\'eom\'etrie,}  
