@@ -209,8 +209,67 @@ On peut aussi lister seulement les configurations globales ou locales ou systèm
 git config --list --global 
 \end{bash}
 \chapter{Création d'un dossier Git}
+le suivi de version de Git est régi par des informations de Git contenues dans un dossier .git/ à la racine du projet. Lorsque vous créez un projet que vous voulez versionner, il faut informer Git afin qu'il initialise sa base de données. Ceci se fait avec la commande suivante:
 \begin{bash}
 git init
+\end{bash}
+
+On peut aussi créer le projet et l'initialiser avec une commande Git :
+\begin{bash}
+git init <nom_du_projet>
+\end{bash}
+Ceci crée un dossier et l'initialise par Git. 
+
+Un répertoire Git contient obligatoirement un dossier caché git dont la structure est la suivante :
+
+\begin{bash}
+.git
+    branches/
+    COMMIT_EDITMSG
+    config
+    description
+    HEAD
+    hooks/
+        applypatch-msg.sample
+        commit-msg.sample
+        post-update.sample
+        pre-applypatch.sample
+        pre-commit.sample
+        prepare-commit-msg.sample
+        pre-push.sample
+        pre-rebase.sample
+        update.sample
+    index/
+        exclude
+    logs/
+        HEAD
+        refs/
+            heads
+                master
+    objects/
+        info
+        pack
+    refs/
+        heads/
+            master
+        tags/
+\end{bash}
+
+Créer un fichier README.md
+\begin{bash}
+touch README.md
+\end{bash}
+Et y insérer du texte:
+\begin{bash}
+echo "Ceci est mon premier texte aujourd'hui" >> README.md
+\end{bash}
+Vérifier l'état du répertoire :
+\begin{bash}
+git status
+\end{bash}
+Ajouter le fichier à l'index:
+\begin{bash}
+git add README.md
 \end{bash}
 
 \begin{thebibliography}{99} 
