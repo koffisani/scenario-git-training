@@ -271,7 +271,33 @@ Ajouter le fichier à l'index:
 \begin{bash}
 git add README.md
 \end{bash}
+Vérifier l'état du répertoire:
+\begin{bash}
+git status
+\end{bash}
+Valider les modifications :
+\begin{bash}
+git commit -m "Premier commit avec Git"
+\end{bash}
+Ou :
+\begin{bash}
+git commit
+\end{bash}
+Cette commande nécessite d'autres informations que Git recueillera en ouvrant l'éditeur texte configuré précédemment.
+Après ce commit, lorsqu'on vérifie l'état du répertoire, on obtient le résultat suivant :
 
+\begin{bash}
+Sur la branche master
+Votre branche est a jour avec 'origin/master'.
+Modifications qui ne seront pas validees :
+  (utilisez "git add <fichier>..." pour mettre a jour ce qui sera valide)
+  (utilisez "git checkout -- <fichier>..." pour annuler les modifications dans la copie de travail)
+
+	modifie :         git-scenario.tex
+
+aucune modification n'a ete ajoutee a la validation (utilisez "git add" ou "git commit -a")
+
+\end{bash}
 \begin{thebibliography}{99} 
 \bibitem{kre} P.~Kr\'ee,~J.Vauthier: \emph{Cours deuxi\`eme ann\'ee du DEUG. Analyse-Alg\`ebre-G\'eom\'etrie,}  
 \'Editions ESKA 
