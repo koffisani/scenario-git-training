@@ -209,6 +209,7 @@ On peut aussi lister seulement les configurations globales ou locales ou systèm
 git config --list --global 
 \end{bash}
 \chapter{Git :  Les notions fondamentales}
+\section{Initialisation d'un répertoire Git}
 Le suivi de version de Git est régi par des informations de Git contenues dans un dossier .git/ à la racine du projet. Lorsque vous créez un projet que vous voulez versionner, il faut informer Git afin qu'il initialise sa base de données. Ceci se fait avec la commande suivante:
 \begin{bash}
 git init
@@ -255,6 +256,7 @@ Un répertoire Git contient obligatoirement un dossier caché git dont la struct
         tags/
 \end{bash}
 
+\section{Ajout d'un fichier à l'index}
 Créer un fichier README.md
 \begin{bash}
 touch README.md
@@ -271,6 +273,7 @@ Ajouter le fichier à l'index:
 \begin{bash}
 git add README.md
 \end{bash}
+\section{Validation des modifications}
 Vérifier l'état du répertoire:
 \begin{bash}
 git status
@@ -288,16 +291,111 @@ Après ce commit, lorsqu'on vérifie l'état du répertoire, on obtient le résu
 
 \begin{bash}
 Sur la branche master
-Votre branche est a jour avec 'origin/master'.
+rien a valider, la copie de travail est propre
+\end{bash}
+\section{Création d'une nouvelle branche}
+Une recommandation essentielle consiste à effectuer toute modification sur une nouvelle branche. Ceci permet de faciliter l'annulation des modifications en cas d'éventuels problèmes.
+
+Pour créer une branche, il faut utiliser la commande :
+\begin{bash}
+git branch update-readme
+\end{bash}
+Pour lister les branches existantes, il faut saisir :
+\begin{bash}
+git branch
+\end{bash}
+Dans le listing des branches, la branche courante est coloriée pour la distinguer des autres.\\
+Basculer vers la nouvelle branche afin d'y effectuer les modifications :
+\begin{bash}
+git checkout update-readme
+\end{bash}
+On peut ici encore lister les branches pour s'assurer qu'on a effectivement basculé vers l'autre branche.\\
+On peut utiliser une autre commande qui permet de créer et basculer vers la nouvelle branche comme suit :
+\begin{bash}
+git checkout -b update-readme
+\end{bash}
+Modifier le fichier README.md. Ouvrir le fichier dans un éditeur et ajouter les lignes suivants:
+\begin{bash}
+Ce que je dois maitriser apres ce workshop:
+- Comment utiliser Git en local et a distance
+- Comment gerer les problemes avec Git 
+\end{bash}
+Vérifier le statut du répertoire :
+\begin{bash}
+git status
+\end{bash}
+Le résultat:
+\begin{bash}
+Sur la branche master
 Modifications qui ne seront pas validees :
   (utilisez "git add <fichier>..." pour mettre a jour ce qui sera valide)
   (utilisez "git checkout -- <fichier>..." pour annuler les modifications dans la copie de travail)
 
-	modifie :         git-scenario.tex
+	modifie :         README.md
 
 aucune modification n'a ete ajoutee a la validation (utilisez "git add" ou "git commit -a")
 
+\end{bash}Ajouter le fichier modifié à l'index (staging erea):
+\begin{bash}
+git add README.md
 \end{bash}
+Valider les modifications :
+\begin{bash}
+git commit -m "Ajout des mes attentes du workshop"
+\end{bash}
+On  peut aussi utiliser 
+\begin{bash}
+git commit -a -m "Ajout de mes attentes du workshop"
+\end{bash}
+pour ajouter tous les fichiers déjà suivis (et modifiés) et les valider.
+On peut voir le journal de nos validations comme suit :
+\begin{bash}
+git log
+\end{bash}
+On peut y ajouter des paramètres optionnels permettant soit d'affiner le résultat ou d'enjoliver l'affichage :
+\begin{itemize}
+\item Afficher les résultats sous forme de graphe:
+\begin{bash}
+git log --graph
+\end{bash}
+\item Afficher les résultats sur une seule ligne :
+\begin{bash}
+git log --oneline
+\end{bash}
+\item Décorer les branches :
+\begin{bash}
+git log --decorate
+\end{bash}
+\end{itemize}
+On peut combiner toutes ces commandes en une seule :
+\begin{bash}
+git log --graph --decorate --oneline
+\end{bash}
+Cette commande est sans doute longue. Il est possible de créer des alias et de les utiliser plus facilement:
+\begin{bash}
+git config --global alias.ldgo "log --decorate --graph --oneline
+\end{bash}
+Il suffira donc de saisir :
+\begin{bash}
+git ldgo
+\end{bash}
+Pour afficher le résultat de la longue commande que nous avions saisie précédemment.\\
+De multiples options sont possibles, à l'instar de stat et de patch. Les options possibles peuvent être affichées avec la commande :
+\begin{bash}
+git log --help
+\end{bash}
+\section{Fusion de branches}
+La fusion de branches consiste à fusionner les modifications effectuées sur deux branches différentes en une seule.
+\begin{itemize}
+\item Basculer vers la branche master 
+\begin{bash}
+git checkout master
+\end{bash}
+\item Fusionner la branche update-readme avec master
+\begin{bash}
+git merge update-readme
+\end{bash}
+\end{itemize}
 \begin{thebibliography}{99} 
 \bibitem{kre} P.~Kr\'ee,~J.Vauthier: \emph{Cours deuxi\`eme ann\'ee du DEUG. Analyse-Alg\`ebre-G\'eom\'etrie,}  
 \'Editions ESKA 
