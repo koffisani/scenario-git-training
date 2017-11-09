@@ -29,6 +29,9 @@
 %\theoremstyle{break}
 \usepackage{graphicx }
 \usepackage{listings}
+
+\usepackage{xparse}
+
 \usepackage{color}
 \usepackage{fancyhdr}
 \usepackage[a4paper,tmargin=2cm,bmargin=3.5cm,rmargin=2cm,lmargin=2cm]{geometry}
@@ -48,6 +51,8 @@
      pdfauthor={Koffi Sani},     %dans les informations du document
      pdfsubject={Cours de Git}          %sous Acrobat.
 }
+
+
 \newtheorem{teo}{Th\'eor\`eme}[section]
 \newtheorem{defi}{D\'efinition}[section]
 \newtheorem{pro}{Proposition}[section]
@@ -109,6 +114,10 @@ Directeur Technique\\ISPACE Corporation - Lomé, TOGO}
 	}
 }{}
 
+\NewDocumentCommand{\codeword}{v}{%
+\texttt{\textcolor{bluefonce}{#1}}
+}
+
 \begin{document}
 
 \title{ \begin{figure} \begin{center}
@@ -142,7 +151,7 @@ Quand on entend parler d’un outil, on se demande à priori beaucoup de choses.
 
 Voici quelques réponses à ces interrogations.
 % Git : qu’est-ce que c’est ?
-\section{Git, qu'est-ce que c'est et à quoi il sert ? }
+\section{Git, qu'est-ce que c'est et à quoi sert-il ? }
 
 Il y a de cela quelques années, alors que la collaboration prenait un élan considérable entre les développeurs de grands projets open source qui font la technologie, certains ont buté sur la nécessité de travailler aisément avec les autres. Il devint nécessaire de savoir qui a modifié le fichier X, ce qu’il a ajouté ou retranché, pourquoi il l’a fait, … Ces questions ne peuvent être toutes répondues avec les outils disponibles (email, IRC, …). Et Linus Torvalds, le créateur du noyau Linux, eut l’idée d’initier ce qui est devenu l’outil le plus populaire de gestion de version de code.
 
@@ -204,13 +213,13 @@ On peut afficher toutes les configurations avec la commande suivante :
 \begin{bash}
 git config --list
 \end{bash}
-On peut aussi lister seulement les configurations globales ou locales ou système en ajoutant l'option --global, --local ou --system respectivement.
+On peut aussi lister seulement les configurations globales ou locales ou système en ajoutant l'option \codeword{---global}, \codeword{---local} ou \codeword{---system} respectivement.
 \begin{bash}
 git config --list --global 
 \end{bash}
 \chapter{Git :  Les notions fondamentales}
 \section{Initialisation d'un répertoire Git}
-Le suivi de version de Git est régi par des informations de Git contenues dans un dossier .git/ à la racine du projet. Lorsque vous créez un projet que vous voulez versionner, il faut informer Git afin qu'il initialise sa base de données. Ceci se fait avec la commande suivante:
+Le suivi de version de Git est régi par des informations de Git contenues dans un dossier \codeword{.git/} à la racine du projet. Lorsque vous créez un projet que vous voulez versionner, il faut informer Git afin qu'il initialise sa base de données. Ceci se fait avec la commande suivante:
 \begin{bash}
 git init
 \end{bash}
@@ -257,7 +266,7 @@ Un répertoire Git contient obligatoirement un dossier caché git dont la struct
 \end{bash}
 
 \section{Ajout d'un fichier à l'index}
-Créer un fichier README.md
+Créer un fichier \codeword{README.md}
 \begin{bash}
 touch README.md
 \end{bash}
@@ -314,7 +323,7 @@ On peut utiliser une autre commande qui permet de créer et basculer vers la nou
 \begin{bash}
 git checkout -b update-readme
 \end{bash}
-Modifier le fichier README.md. Ouvrir le fichier dans un éditeur et ajouter les lignes suivants:
+Modifier le fichier \codeword{README.md}. Ouvrir le fichier dans un éditeur et ajouter les lignes suivants:
 \begin{bash}
 Ce que je dois maitriser apres ce workshop:
 - Comment utiliser Git en local et a distance
@@ -335,10 +344,15 @@ Modifications qui ne seront pas validees :
 
 aucune modification n'a ete ajoutee a la validation (utilisez "git add" ou "git commit -a")
 
-\end{bash}Ajouter le fichier modifié à l'index (staging erea):
+\end{bash}Ajouter le fichier modifié à l'index (staging area):
 \begin{bash}
 git add README.md
 \end{bash}
+On peut aussi utiliser :
+\begin{bash}
+git add -A
+\end{bash}
+Cette commande ajoute tous les fichiers de l'index, c'est-à-dire ceux déjà suivis par  Git.\\
 Valider les modifications :
 \begin{bash}
 git commit -m "Ajout des mes attentes du workshop"
@@ -347,7 +361,7 @@ On  peut aussi utiliser
 \begin{bash}
 git commit -a -m "Ajout de mes attentes du workshop"
 \end{bash}
-pour ajouter tous les fichiers déjà suivis (et modifiés) et les valider.
+pour ajouter tous les fichiers déjà suivis (et modifiés) et les valider. Avec cette commande, pas besoin d'ajouter à l'index avant d'effectuer le commit.\\
 On peut voir le journal de nos validations comme suit :
 \begin{bash}
 git log
@@ -385,17 +399,22 @@ De multiples options sont possibles, à l'instar de stat et de patch. Les option
 git log --help
 \end{bash}
 \section{Fusion de branches}
-La fusion de branches consiste à fusionner les modifications effectuées sur deux branches différentes en une seule.
+La fusion de branches consiste à fusionner les modifications effectuées sur deux branches différentes en une seule. Dans Git, il existe deux manières de fusionner deux branches : la stratégie récursive et la stratégie fast-forward.
+\subsection{Stratégie fast-forward}
+Lorsque vous créez une branche \codeword{b} à partir d'une branche \codeword{a}, le dernier commit de \codeword{a} avant la création de \codeword{b} est appelé parent des commits de \codeword{b}. Elle permet de fusionner deux branches en une seule sans mentionner visuellement l'embranchement. Cette stratégie s'opère lorsque la  branche à fusionner possède un commit parent sur la branche de destination alors que cette dernière n'a aucun autre depuis le parent de la branche à fusionner.
 \begin{itemize}
 \item Basculer vers la branche master 
 \begin{bash}
 git checkout master
 \end{bash}
-\item Fusionner la branche update-readme avec master
+\item Fusionner la branche \codeword{update-readme} avec \codeword{master}
 \begin{bash}
 git merge update-readme
 \end{bash}
 \end{itemize}
+
+\subsection{Stratégie récursive}
+Dans la stratégie récursive, les derniers commits des deux branches n'ont pas de parent commun. Dans ce cas, Git crée un commit de fusion. Ceci permet, lors de l'affichage du journal sous forme graphique d'identifier clairement les embranchements. 
 \begin{thebibliography}{99} 
 \bibitem{kre} P.~Kr\'ee,~J.Vauthier: \emph{Cours deuxi\`eme ann\'ee du DEUG. Analyse-Alg\`ebre-G\'eom\'etrie,}  
 \'Editions ESKA 
